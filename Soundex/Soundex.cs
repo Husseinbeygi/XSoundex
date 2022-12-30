@@ -1,9 +1,13 @@
-﻿using System.Text;
+﻿using Soundex;
+using Soundex.Models;
+using System.Text;
 
 namespace XSoundex;
 
 public static class Soundex
 {
+	public static SoundexJson JsonSoundex { get; private set; }
+
 	public static string ToSoundex(this string text)
 	{
 		var res = GenerateSoundex(text);
@@ -21,6 +25,13 @@ public static class Soundex
 
 	public static string GenerateSoundex(string word)
 	{
+		JsonSoundex = (new JsonSoundex()).SoundexJson;
+
+		if (JsonSoundex is null)
+		{
+			throw new InvalidDataException("Json File is not in Correct Format");
+		}
+
 		if (string.IsNullOrWhiteSpace(word))
 		{
 			return string.Empty;
@@ -61,24 +72,17 @@ public static class Soundex
 		return word.Substring(1);
 	}
 
-	private static int GetCharacterCode(char Characters) => Characters switch
+	private static int GetCharacterCode(char Characters)
 	{
-		'ف' or 'ب' or 'پ' => 1,
+		if (JsonSoundex.CharacterCodes._1.FirstOrDefault(x => x == Characters) != '\0') { return 1; }
+		if (JsonSoundex.CharacterCodes._2.FirstOrDefault(x => x == Characters) != '\0') { return 2; }
+		if (JsonSoundex.CharacterCodes._3.FirstOrDefault(x => x == Characters) != '\0') { return 3; }
+		if (JsonSoundex.CharacterCodes._4.FirstOrDefault(x => x == Characters) != '\0') { return 4; }
+		if (JsonSoundex.CharacterCodes._5.FirstOrDefault(x => x == Characters) != '\0') { return 5; }
+		if (JsonSoundex.CharacterCodes._6.FirstOrDefault(x => x == Characters) != '\0') { return 6; }
 
-		'ج' or 'ز' or 'س' or 'ص' or 'ظ' or
-		'ق' or 'ك' or 'گ' or 'ث' or 'ذ' or
-		'ض' or 'خ' or 'چ' or 'ک' => 2,
-
-		'د' or 'ت' or 'ط' => 3,
-
-		'ل' => 4,
-
-		'م' or 'ن' => 5,
-
-		'ر' => 6,
-
-		_ => 0,
-	};
+		return 0;
+	}
 
 	static char MapTheFirstCharacter(char v) => v switch
 	{
@@ -125,43 +129,10 @@ public static class Soundex
 
 		word = word.RemoveWhitespace();
 
-		var vowls = new HashSet<string>();
-
-		vowls.Add("ا");
-		vowls.Add("أ");
-		vowls.Add("إ");
-		vowls.Add("آ");
-		vowls.Add("ح");
-		vowls.Add("خ");
-		vowls.Add("ه");
-		vowls.Add("ع");
-		vowls.Add("غ");
-		vowls.Add("ش");
-		vowls.Add("و");
-		vowls.Add("ي");
-		vowls.Add("ی");
-		vowls.Add("و");
-		vowls.Add("ه");
-		vowls.Add("ا");
-		vowls.Add("ئ");
-
-		foreach (var item in vowls)
+		foreach (var item in JsonSoundex.Vowls)
 		{
 			word = word.Replace(item, "");
 		}
-
-		//switch (word[0])
-		//{
-		//	case 'ا':
-		//	case 'أ':
-		//	case 'إ':
-		//	case 'آ':
-		//		{
-		//			word = word.Substring(1, word.Length - 1);
-		//		}
-		//		break;
-
-		//}
 
 		return word;
 	}

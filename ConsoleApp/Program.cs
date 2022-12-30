@@ -11,7 +11,6 @@ namespace ConsoleApp
 			var a2 = "سلم".ToSoundex();
 			var a3 = "سام".ToSoundex();
 			var a4 = "ساام".ToSoundex();
-			var a5 = Soundex.GenerateSoundex("سلام");
 		}
 	}
 }
