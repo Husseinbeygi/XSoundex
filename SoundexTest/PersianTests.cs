@@ -1,9 +1,8 @@
 ﻿using XSoundex;
-using Xunit;
 
 namespace SoundexTest
 {
-	public class Tests
+    public class PersianTests
 	{
 		[Theory]
 		[InlineData("گوسفند", "G215")]
@@ -23,7 +22,7 @@ namespace SoundexTest
 		[InlineData(null, "")]
 		public void ShouldReturnProperSoundexCode(string word,string code)
 		{
-			Assert.Equal(word.ToSoundex(), code);
+			Assert.Equal(word.ToSoundex("fa-IR"), code);
 		}
 
 		[Theory]
@@ -34,7 +33,7 @@ namespace SoundexTest
 		[InlineData("بهرام", "برنا")]
 		public void ShouldReturnTrueIfTheWordsHaveTheSameSoundexCode(string word1, string word2)
 		{
-			Assert.True(word1.HasTheSameSoundex(word2));
+			Assert.True(word1.HasTheSameSoundex(word2, "fa-IR"));
 		}
 	}
 }

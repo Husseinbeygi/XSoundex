@@ -1,146 +1,149 @@
-﻿using Soundex;
-using Soundex.Models;
-using System.Text;
+﻿using System.Text;
+using XSoundex.Models;
 
 namespace XSoundex;
 
-public static class Soundex
+public class Soundex
 {
-	public static SoundexJson JsonSoundex { get; private set; }
+    private readonly string? _culture;
 
-	public static string ToSoundex(this string text)
-	{
-		var res = GenerateSoundex(text);
+    public SoundexJson JsonSoundex { get; private set; }
 
-		return res;
-	}
+    public Soundex(string culture = "en-US")
+    {
+        _culture = culture;
+    }
 
-	public static bool HasTheSameSoundex(this string word1, string word2)
-	{
-		var resword1 = GenerateSoundex(word1);
-		var resword2 = GenerateSoundex(word2);
+    public string GenerateSoundex(string word)
+    {
+        Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(_culture);
+        Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(_culture);
 
-		return resword1 == resword2;
-	}
+        var culture = Thread.CurrentThread.CurrentCulture;
 
-	public static string GenerateSoundex(string word)
-	{
-		JsonSoundex = (new JsonSoundex()).SoundexJson;
+        JsonSoundex = (new JsonSoundex()).SoundexJson;
 
-		if (JsonSoundex is null)
-		{
-			throw new InvalidDataException("Json File is not in Correct Format");
-		}
+        if (JsonSoundex is null)
+        {
+            throw new InvalidDataException("Json File is not in Correct Format");
+        }
 
-		if (string.IsNullOrWhiteSpace(word))
-		{
-			return string.Empty;
-		}
+        if (string.IsNullOrWhiteSpace(word))
+        {
+            return string.Empty;
+        }
 
-		var fLetter = MapTheFirstCharacter(word[0]);
+        word = word.ToUpper();
 
-		word = RemoveTheFirstCharacter(word);
+        var fLetter = word[0];
 
-		word = CleanUpTheVowlsCharacter(word);
+        if (culture.TwoLetterISOLanguageName != "en")
+        {
+            fLetter = MapTheFirstCharacter(word[0]);
+        }
 
-		char[] Characters = word.ToCharArray();
+        word = RemoveTheFirstCharacter(word);
 
-		var buffer = new StringBuilder(4);
-		buffer.Append(fLetter);
+        word = CleanUpTheVowlsCharacter(word);
 
-		foreach (var item in Characters)
-		{
-			int currCode = GetCharacterCode(item);
-			buffer.Append(currCode);
-			if (buffer.Length == 4)
-				break;
-		}
+        var Characters = word.ToList();
 
-		AddZeroToEndIfNeeded(buffer);
+        var buffer = new StringBuilder(4);
+        buffer.Append(fLetter);
 
-		return buffer.ToString();
-	}
+        foreach (var item in Characters)
+        {
+            int currCode = GetCharacterCode(item.ToString());
+            buffer.Append(currCode);
+            if (buffer.Length == 4)
+                break;
+        }
 
-	private static void AddZeroToEndIfNeeded(StringBuilder buffer)
-	{
-		if (buffer.Length < 4)
-			buffer.Append('0', (4 - buffer.Length));
-	}
+        AddZeroToEndIfNeeded(buffer);
 
-	private static string RemoveTheFirstCharacter(string word)
-	{
-		return word.Substring(1);
-	}
+        return buffer.ToString();
+    }
 
-	private static int GetCharacterCode(char Characters)
-	{
-		if (JsonSoundex.CharacterCodes._1.FirstOrDefault(x => x == Characters) != '\0') { return 1; }
-		if (JsonSoundex.CharacterCodes._2.FirstOrDefault(x => x == Characters) != '\0') { return 2; }
-		if (JsonSoundex.CharacterCodes._3.FirstOrDefault(x => x == Characters) != '\0') { return 3; }
-		if (JsonSoundex.CharacterCodes._4.FirstOrDefault(x => x == Characters) != '\0') { return 4; }
-		if (JsonSoundex.CharacterCodes._5.FirstOrDefault(x => x == Characters) != '\0') { return 5; }
-		if (JsonSoundex.CharacterCodes._6.FirstOrDefault(x => x == Characters) != '\0') { return 6; }
+    private static void AddZeroToEndIfNeeded(StringBuilder buffer)
+    {
+        if (buffer.Length < 4)
+            buffer.Append('0', (4 - buffer.Length));
+    }
 
-		return 0;
-	}
+    private static string RemoveTheFirstCharacter(string word)
+    {
+        return word.Substring(1);
+    }
 
-	static char MapTheFirstCharacter(char v) => v switch
-	{
-		'ب' => 'B',
-		'پ' => 'P',
-		'ت' => 'T',
-		'ط' => 'T',
-		'س' => 'S',
-		'ث' => 'S',
-		'ص' => 'S',
-		'ج' => 'J',
-		'چ' => 'C',
-		'ر' => 'R',
-		'ه' => 'H',
-		'ح' => 'H',
-		'خ' => 'X',
-		'د' => 'D',
-		'ذ' => 'Z',
-		'ظ' => 'Z',
-		'ض' => 'Z',
-		'ز' => 'Z',
-		'ژ' => 'Z',
-		'ش' => 'S',
-		'غ' => 'G',
-		'ک' => 'K',
-		'گ' => 'G',
-		'ق' => 'G',
-		'ف' => 'F',
-		'ل' => 'L',
-		'م' => 'M',
-		'ن' => 'N',
-		'و' => 'V',
-		'ع' => 'A',
-		'ا' => 'A',
-		'آ' => 'A',
-		'أ' => 'A',
-		'إ' => 'A',
-		'ء' => 'A',
-		'ی' => 'Y',
-	};
+    private int GetCharacterCode(string Characters)
+    {
+        if (JsonSoundex.CharacterCodes._1.FirstOrDefault(x => x == Characters) != null) { return 1; }
+        if (JsonSoundex.CharacterCodes._2.FirstOrDefault(x => x == Characters) != null) { return 2; }
+        if (JsonSoundex.CharacterCodes._3.FirstOrDefault(x => x == Characters) != null) { return 3; }
+        if (JsonSoundex.CharacterCodes._4.FirstOrDefault(x => x == Characters) != null) { return 4; }
+        if (JsonSoundex.CharacterCodes._5.FirstOrDefault(x => x == Characters) != null) { return 5; }
+        if (JsonSoundex.CharacterCodes._6.FirstOrDefault(x => x == Characters) != null) { return 6; }
 
-	static string CleanUpTheVowlsCharacter(string word)
-	{
+        return 0;
+    }
 
-		word = word.RemoveWhitespace();
+    static char MapTheFirstCharacter(char v) => v switch
+    {
+        'ب' => 'B',
+        'پ' => 'P',
+        'ت' => 'T',
+        'ط' => 'T',
+        'س' => 'S',
+        'ث' => 'S',
+        'ص' => 'S',
+        'ج' => 'J',
+        'چ' => 'C',
+        'ر' => 'R',
+        'ه' => 'H',
+        'ح' => 'H',
+        'خ' => 'X',
+        'د' => 'D',
+        'ذ' => 'Z',
+        'ظ' => 'Z',
+        'ض' => 'Z',
+        'ز' => 'Z',
+        'ژ' => 'Z',
+        'ش' => 'S',
+        'غ' => 'G',
+        'ک' => 'K',
+        'گ' => 'G',
+        'ق' => 'G',
+        'ف' => 'F',
+        'ل' => 'L',
+        'م' => 'M',
+        'ن' => 'N',
+        'و' => 'V',
+        'ع' => 'A',
+        'ا' => 'A',
+        'آ' => 'A',
+        'أ' => 'A',
+        'إ' => 'A',
+        'ء' => 'A',
+        'ی' => 'Y',
+    };
 
-		foreach (var item in JsonSoundex.Vowls)
-		{
-			word = word.Replace(item, "");
-		}
+    string CleanUpTheVowlsCharacter(string word)
+    {
 
-		return word;
-	}
+        word = RemoveWhitespace(word);
 
-	private static string RemoveWhitespace(this string input)
-	{
-		return new string(input.ToCharArray()
-			.Where(c => !char.IsWhiteSpace(c))
-			.ToArray());
-	}
+        foreach (var item in JsonSoundex.Vowls)
+        {
+            word = word.Replace(item, "");
+        }
+
+        return word;
+    }
+
+    private static string RemoveWhitespace(string input)
+    {
+        return new string(input.ToCharArray()
+            .Where(c => !char.IsWhiteSpace(c))
+            .ToArray());
+    }
 }

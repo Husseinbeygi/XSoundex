@@ -1,38 +1,30 @@
 ﻿using System.Text.Json;
+using XSoundex.Models;
+using XSoundex.Resources;
 
-namespace Soundex
+namespace XSoundex
 {
-	public class JsonSoundex
-	{
-		public JsonSoundex()
-		{
-			SoundexJson = new();
-			ReadJson();
-		}
+    public class JsonSoundex
+    {
+        public JsonSoundex()
+        {
+            SoundexJson = new();
+            GetResources();
+        }
 
-		public Models.SoundexJson SoundexJson { get; private set; }
+        public SoundexJson SoundexJson { get; private set; }
 
-		private void ReadJson()
-		{
-			if (SoundexJson.CharacterCodes != null)
-			{
-				return;
-			}
-
-			using StreamReader r = new("soundex.fa-IR.json");
-
-			string json = r.ReadToEnd();
-
-			if (!string.IsNullOrWhiteSpace(json))
-			{
-				SoundexJson = JsonSerializer.Deserialize<Models.SoundexJson>(json);
-			}
-			else
-			{
-				throw new InvalidDataException("Json File is not in Correct Format");
-			}
-		}
+        private void GetResources()
+        {
+            SoundexJson.CharacterCodes._1 = SoundexRes._1.Split('/').ToList();
+            SoundexJson.CharacterCodes._2 = SoundexRes._2.Split('/').ToList();
+            SoundexJson.CharacterCodes._3 = SoundexRes._3.Split('/').ToList();
+            SoundexJson.CharacterCodes._4 = SoundexRes._4.Split('/').ToList();
+            SoundexJson.CharacterCodes._5 = SoundexRes._5.Split('/').ToList();
+            SoundexJson.CharacterCodes._6 = SoundexRes._6.Split('/').ToList();
+            SoundexJson.Vowls = SoundexRes.Vowls.Split('/').ToList();
+        }
 
 
-	}
+    }
 }

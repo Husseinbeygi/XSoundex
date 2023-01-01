@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Soundex\Soundex.csproj" />
+    <ProjectReference Include="..\Soundex\XSoundex.csproj" />
   </ItemGroup>
 
 </Project>
