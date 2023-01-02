@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Soundex\XSoundex.csproj" />
+    <ProjectReference Include="..\..\Soundex\XSoundex.csproj" />
   </ItemGroup>
 
   <ItemGroup>
