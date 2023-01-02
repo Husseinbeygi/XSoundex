@@ -1,9 +1,10 @@
-﻿@using XSoundex;
+﻿@using BlazorApp.Resources;
+@using XSoundex;
 
 <div class="card-body shadow-lg rounded-3">
-	<h5 class="card-title">TRY HERE ✔️</h5>
+	<h5 class="card-title">@(DataDictionary.TestCardTitle)</h5>
 	<div class="card-body">
-		<label>Search</label>
+        <label>@(DataDictionary.TestCardLabel)</label>
 		<input @bind-value="text" class="form-control" />
         <br />
         <ul>
@@ -14,7 +15,7 @@
         </ul>
 	</div>
 	<div class="text-center">
-		<button class="btn btn-outline-primary" @onclick="CalculateSoundex">Soundex Search</button>
+        <button class="btn btn-outline-primary" @onclick="CalculateSoundex">@(DataDictionary.TestCardButton)</button>
 	</div>
 </div>
 
@@ -34,76 +35,177 @@
 
     void PrepTheWords()
     {
-        var _englishWords = @"ability,able,about,above,accept,according,account,across,act,action,
-activity,actually,add,address,administration,admit,adult,affect,after,again,against,age,agency,
-agent,ago,agree,agreement,ahead,air,all,allow,almost,alone,along,already,also,although,always,
-American,among,amount,analysis,and,animal,another,answer,any,anyone,anything,appear,apply,
-approach,area,argue,arm,around,arrive,art,article,artist,as,ask,assume,at,attack,attention,
-attorney,audience,author,authority,available,avoid,away,baby,back,bad,bag,ball,bank,bar,base,
-be,beat,beautiful,because,become,bed,before,begin,behavior,behind,believe,benefit,best,better,
-between,beyond,big,bill,billion,bit,black,blood,blue,board,body,book,born,both,box,boy,break,bring
-,brother,budget,build,building,business,but,buy,by,call,camera,campaign,can,cancer,candidate,capital,
-car,card,care,career,carry,case,catch,cause,cell,center,central,century,certain,certainly,chair,
-challenge,chance,change,character,charge,check,child,choice,choose,church,citizen,city,civil,claim,
-class,clear,clearly,close,coach,cold,collection,college,color,come,commercial,common,community,
-company,compare,computer,concern,condition,conference,Congress,consider,consumer,contain,continue,
-control,cost,could,country,couple,course,court,cover,create,crime,cultural,culture,cup,current,
-customer,cut,dark,data,daughter,day,dead,deal,death,debate,decade,decide,decision,deep,defense,
-degree,Democrat,democratic,describe,design,despite,detail,determine,develop,development,die,
-difference,different,difficult,dinner,direction,director,discover,discuss,discussion,disease,
-do,doctor,dog,door,down,draw,dream,drive,drop,drug,during,each,early,east,easy,eat,economic,economy,
-edge,education,effect,effort,eight,either,election,else,employee,end,energy,enjoy,enough,enter,entire,
-environment,environmental,especially,establish,even,evening,event,ever,every,everybody,everyone,
-everything,evidence,exactly,example,executive,exist,expect,experience,expert,explain,eye,face,fact,
-factor,fail,fall,family,far,fast,father,fear,federal,feel,feeling,few,field,fight,figure,fill,film,
-final,finally,financial,find,fine,finger,finish,fire,firm,first,fish,five,floor,fly,focus,follow,
-food,foot,for,force,foreign,forget,form,former,forward,four,free,friend,from,front,full,fund,future,
-game,garden,gas,general,generation,get,girl,give,glass,go,goal,good,government,great,green,ground,
-group,grow,growth,guess,gun,guy,hair,half,hand,hang,happen,happy,hard,have,he,head,health,hear,heart,
-heat,heavy,help,her,here,herself,high,him,himself,his,history,hit,hold,home,hope,hospital,hot,hotel,
-hour,house,how,however,huge,human,hundred,husband,I,idea,identify,if,image,imagine,impact,important,
-improve,in,include,including,increase,indeed,indicate,individual,industry,information,inside,instead,
-institution,interest,interesting,international,interview,into,investment,involve,issue,it,item,its,
-itself,job,join,just,keep,key,kid,kill,kind,kitchen,know,knowledge,land,language,large,last,late,
-later,laugh,law,lawyer,lay,lead,leader,learn,least,leave,left,leg,legal,less,let,letter,level,lie,
-life,light,like,likely,line,list,listen,little,live,local,long,look,lose,loss,lot,love,low,machine,
-magazine,main,maintain,major,majority,make,man,manage,management,manager,many,market,marriage,
-material,matter,may,maybe,me,mean,measure,media,medical,meet,meeting,member,memory,mention,message,
-method,middle,might,military,million,mind,minute,miss,mission,model,modern,moment,money,month,more,
-morning,most,mother,mouth,move,movement,movie,Mr,Mrs,much,music,must,my,myself,name,nation,national,
-natural,nature,near,nearly,necessary,need,network,never,new,news,newspaper,next,nice,night,no,none,
-nor,north,not,note,nothing,notice,now,n't,number,occur,of,off,offer,office,officer,official,often,oh,
-oil,ok,old,on,once,one,only,onto,open,operation,opportunity,option,or,order,organization,other,others,
-our,out,outside,over,own,owner,page,pain,painting,paper,parent,part,participant,particular,particularly,partner,
-party,pass,past,patient,pattern,pay,peace,people,per,perform,performance,perhaps,period,person,
-personal,phone,physical,pick,picture,piece,place,plan,plant,play,player,PM,point,police,policy,
-political,politics,poor,popular,population,position,positive,possible,power,practice,prepare,
-present,president,pressure,pretty,prevent,price,private,probably,problem,process,produce,product,
-production,professional,professor,program,project,property,protect,prove,provide,public,pull,purpose,
-push,put,quality,question,quickly,quite,race,radio,raise,range,rate,rather,reach,read,ready,real,
-reality,realize,really,reason,receive,recent,recently,recognize,record,red,reduce,reflect,region,
-relate,relationship,religious,remain,remember,remove,report,represent,Republican,require,research,
-resource,respond,response,responsibility,rest,result,return,reveal,rich,right,rise,risk,road,rock,
-role,room,rule,run,safe,same,save,say,scene,school,science,scientist,score,sea,season,seat,second,
-section,security,see,seek,seem,sell,send,senior,sense,series,serious,serve,service,set,seven,several,
-sex,sexual,shake,share,she,shoot,short,shot,should,shoulder,show,side,sign,significant,similar,simple,
-simply,since,sing,single,sister,sit,site,situation,six,size,skill,skin,small,smile,so,social,society,
-soldier,some,somebody,someone,something,sometimes,son,song,soon,sort,sound,source,south,southern,
-space,speak,special,specific,speech,spend,sport,spring,staff,stage,stand,standard,star,start,state,
-statement,station,stay,step,still,stock,stop,store,story,strategy,street,strong,structure,student,
-study,stuff,style,subject,success,successful,such,suddenly,suffer,suggest,summer,support,sure,surface,
-system,table,take,talk,task,tax,teach,teacher,team,technology,television,tell,ten,tend,term,test,than,
-thank,that,the,their,them,themselves,then,theory,there,these,they,thing,think,third,this,those,though,
-thought,thousand,threat,three,through,throughout,throw,thus,time,to,today,together,tonight,too,top,
-total,tough,toward,town,trade,traditional,training,travel,treat,treatment,tree,trial,trip,trouble,
-true,truth,try,turn,TV,two,type,under,understand,unit,until,up,upon,us,use,usually,value,various,
-very,victim,view,violence,visit,voice,vote,wait,walk,wall,want,war,watch,water,way,we,weapon,wear,
-week,weight,well,west,western,what,whatever,when,where,whether,which,while,white,who,whole,whom,
-whose,why,wide,wife,will,win,wind,window,wish,with,within,without,woman,wonder,word,work,worker,
-world,worry,would,write,writer,wrong,yard,yeah,year,yes,yet,you,young,your,yourself";
+        var _words = string.Empty;
+        if (Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "en")
+        {
+            _words = @"ability,able,about,above,accept,according,account,across,act,action,
+    activity,actually,add,address,administration,admit,adult,affect,after,again,against,age,agency,
+    agent,ago,agree,agreement,ahead,air,all,allow,almost,alone,along,already,also,although,always,
+    American,among,amount,analysis,and,animal,another,answer,any,anyone,anything,appear,apply,
+    approach,area,argue,arm,around,arrive,art,article,artist,as,ask,assume,at,attack,attention,
+    attorney,audience,author,authority,available,avoid,away,baby,back,bad,bag,ball,bank,bar,base,
+    be,beat,beautiful,because,become,bed,before,begin,behavior,behind,believe,benefit,best,better,
+    between,beyond,big,bill,billion,bit,black,blood,blue,board,body,book,born,both,box,boy,break,bring
+    ,brother,budget,build,building,business,but,buy,by,call,camera,campaign,can,cancer,candidate,capital,
+    car,card,care,career,carry,case,catch,cause,cell,center,central,century,certain,certainly,chair,
+    challenge,chance,change,character,charge,check,child,choice,choose,church,citizen,city,civil,claim,
+    class,clear,clearly,close,coach,cold,collection,college,color,come,commercial,common,community,
+    company,compare,computer,concern,condition,conference,Congress,consider,consumer,contain,continue,
+    control,cost,could,country,couple,course,court,cover,create,crime,cultural,culture,cup,current,
+    customer,cut,dark,data,daughter,day,dead,deal,death,debate,decade,decide,decision,deep,defense,
+    degree,Democrat,democratic,describe,design,despite,detail,determine,develop,development,die,
+    difference,different,difficult,dinner,direction,director,discover,discuss,discussion,disease,
+    do,doctor,dog,door,down,draw,dream,drive,drop,drug,during,each,early,east,easy,eat,economic,economy,
+    edge,education,effect,effort,eight,either,election,else,employee,end,energy,enjoy,enough,enter,entire,
+    environment,environmental,especially,establish,even,evening,event,ever,every,everybody,everyone,
+    everything,evidence,exactly,example,executive,exist,expect,experience,expert,explain,eye,face,fact,
+    factor,fail,fall,family,far,fast,father,fear,federal,feel,feeling,few,field,fight,figure,fill,film,
+    final,finally,financial,find,fine,finger,finish,fire,firm,first,fish,five,floor,fly,focus,follow,
+    food,foot,for,force,foreign,forget,form,former,forward,four,free,friend,from,front,full,fund,future,
+    game,garden,gas,general,generation,get,girl,give,glass,go,goal,good,government,great,green,ground,
+    group,grow,growth,guess,gun,guy,hair,half,hand,hang,happen,happy,hard,have,he,head,health,hear,heart,
+    heat,heavy,help,her,here,herself,high,him,himself,his,history,hit,hold,home,hope,hospital,hot,hotel,
+    hour,house,how,however,huge,human,hundred,husband,I,idea,identify,if,image,imagine,impact,important,
+    improve,in,include,including,increase,indeed,indicate,individual,industry,information,inside,instead,
+    institution,interest,interesting,international,interview,into,investment,involve,issue,it,item,its,
+    itself,job,join,just,keep,key,kid,kill,kind,kitchen,know,knowledge,land,language,large,last,late,
+    later,laugh,law,lawyer,lay,lead,leader,learn,least,leave,left,leg,legal,less,let,letter,level,lie,
+    life,light,like,likely,line,list,listen,little,live,local,long,look,lose,loss,lot,love,low,machine,
+    magazine,main,maintain,major,majority,make,man,manage,management,manager,many,market,marriage,
+    material,matter,may,maybe,me,mean,measure,media,medical,meet,meeting,member,memory,mention,message,
+    method,middle,might,military,million,mind,minute,miss,mission,model,modern,moment,money,month,more,
+    morning,most,mother,mouth,move,movement,movie,Mr,Mrs,much,music,must,my,myself,name,nation,national,
+    natural,nature,near,nearly,necessary,need,network,never,new,news,newspaper,next,nice,night,no,none,
+    nor,north,not,note,nothing,notice,now,n't,number,occur,of,off,offer,office,officer,official,often,oh,
+    oil,ok,old,on,once,one,only,onto,open,operation,opportunity,option,or,order,organization,other,others,
+    our,out,outside,over,own,owner,page,pain,painting,paper,parent,part,participant,particular,particularly,partner,
+    party,pass,past,patient,pattern,pay,peace,people,per,perform,performance,perhaps,period,person,
+    personal,phone,physical,pick,picture,piece,place,plan,plant,play,player,PM,point,police,policy,
+    political,politics,poor,popular,population,position,positive,possible,power,practice,prepare,
+    present,president,pressure,pretty,prevent,price,private,probably,problem,process,produce,product,
+    production,professional,professor,program,project,property,protect,prove,provide,public,pull,purpose,
+    push,put,quality,question,quickly,quite,race,radio,raise,range,rate,rather,reach,read,ready,real,
+    reality,realize,really,reason,receive,recent,recently,recognize,record,red,reduce,reflect,region,
+    relate,relationship,religious,remain,remember,remove,report,represent,Republican,require,research,
+    resource,respond,response,responsibility,rest,result,return,reveal,rich,right,rise,risk,road,rock,
+    role,room,rule,run,safe,same,save,say,scene,school,science,scientist,score,sea,season,seat,second,
+    section,security,see,seek,seem,sell,send,senior,sense,series,serious,serve,service,set,seven,several,
+    sex,sexual,shake,share,she,shoot,short,shot,should,shoulder,show,side,sign,significant,similar,simple,
+    simply,since,sing,single,sister,sit,site,situation,six,size,skill,skin,small,smile,so,social,society,
+    soldier,some,somebody,someone,something,sometimes,son,song,soon,sort,sound,source,south,southern,
+    space,speak,special,specific,speech,spend,sport,spring,staff,stage,stand,standard,star,start,state,
+    statement,station,stay,step,still,stock,stop,store,story,strategy,street,strong,structure,student,
+    study,stuff,style,subject,success,successful,such,suddenly,suffer,suggest,summer,support,sure,surface,
+    system,table,take,talk,task,tax,teach,teacher,team,technology,television,tell,ten,tend,term,test,than,
+    thank,that,the,their,them,themselves,then,theory,there,these,they,thing,think,third,this,those,though,
+    thought,thousand,threat,three,through,throughout,throw,thus,time,to,today,together,tonight,too,top,
+    total,tough,toward,town,trade,traditional,training,travel,treat,treatment,tree,trial,trip,trouble,
+    true,truth,try,turn,TV,two,type,under,understand,unit,until,up,upon,us,use,usually,value,various,
+    very,victim,view,violence,visit,voice,vote,wait,walk,wall,want,war,watch,water,way,we,weapon,wear,
+    week,weight,well,west,western,what,whatever,when,where,whether,which,while,white,who,whole,whom,
+    whose,why,wide,wife,will,win,wind,window,wish,with,within,without,woman,wonder,word,work,worker,
+    world,worry,would,write,writer,wrong,yard,yeah,year,yes,yet,you,young,your,yourself";
+        }
+        else
+        {
+            _words = @"کردن,شدن,دادن,صفت,به,داشتن,اسم,ساختن,بودن,گرفتن,زدن,یافتن,گشتن,از,و,بردن,گفتن,رفتن,سر,آوردن
+,ورزیدن,در,پاک,آمدن,آشکار,آرام,ماندن,بسیار,خوردن,بزرگ,سخت,بر,جدا,پست,بند,قرار,روشن,قید,زیبا,نابود
+,کشیدن,پریشان,دور,بیهوده,تیره,میل,راه,کار,استوار,ناتوان,درست,زیاد,افتادن,انداختن,روش,آشفته,گذاشتن
+,مطیع,اصل,جنگ,زشت,سرور,آگاه,گروه,باز,مهر,خلق,شیوه,بالا,سالم,مقام,ظاهر,یار,تمام,برابر,جستن,توجه
+,محکم,حکم,مثل,قدرت,سستی,سست,سختی,شاد,کم,مربوط,پنهان,آزاد,شایسته,ملک,ضعیف,تاب,دیدن,محل,رد,پایه
+,بد,عالم,غمگین,پیدا,سخن,راست,سرکش,ترک,بخشیدن,خانه,آرامش,گرفتار,پراکنده,بین,مطلع,ستایش
+,فقیر,اندیشه,بدبخت,مخفی,پایان,رها,بلند,فرومایه,نادان,سود,یاری,امر,کنار,هم,زن,خوشی
+,وابسته,صاف,ثابت,دوری,رئیس,باب,حاصل,مانند,فریب,صورت,بررسی,بستن,دست,مغلوب,غنی,بهره,آماده,مهربانی,حیران
+,خوش,سرزنش,مهربان,حرکت,رسیدن,نتیجه,عاقل,خراب,نهان,منزل,با,قصد,طرف,کوچک,جا,اختلاف,درک,حال,خوار,نادرست
+,نظر,تایید,دسته,نیرنگ,سبک,قطع,دشمنی,اندوه,جور,اضطراب,نو,آهنگ,عاشق,کمک,فاسد,پوشیده,دوستی,خود,شکوه
+,شبیه,ناحیه,سیر,بیم,جدایی,مغموم,رام,بار,دلیر,بیان,احمق,خطا,حیله,حرف,مکر,وضع,شده,زرنگ,مرتب,دانا
+,ساده,واضح,بخشش,تحمل,گرد,پاره,گزیدن,حد,اهل,باطل,اثر,قبول,ادا,تغییر,فرمان,تند,آب,نشان,متحیر,ایجاد
+,توان,دم,عادت,خشک,شریف,مخالف,بنده,افسرده,اندوهگین,ملول,کامل,قوی,آغاز,بیچاره,نهاد,پر,مهیا,وقت,درنگ
+,جمع,خو,مسرور,قشنگ,تار,شرح,مهمل,نیک,سرکشی,تکبر,دستور,پیشوا,نافرمانی,مخالفت,گونه,مسکن,جلد,غم,شادمان
+,مورد,معین,شمردن,نرم,طریقه,فکر,همراه,گستاخ,پیر,شجاع,زیرک,ظالم,موافق,گردش,آباد,رسم,مشکل,زمین,درهم
+,دوست,همسر,کهنه,تازه,فقر,متکبر,شوخی,برتری,وجه,نگهبان,پیش,مهم,ترس,اندک,اندازه,سزاوار,قسمت,خیر,مضطرب
+,صحیح,سازش,خشمگین,فساد,جایگاه,خبر,کند,عصیان,بیزار,همه,پیوسته,تنها,نافرمان,خالص,ابله,لایق,بزرگی,پی
+,مراقبت,درمانده,مغرور,شیفته,تسلیم,سازگار,پیروی,غافل,گرفته,تزویر,حکومت,حمله,روی,تنگ,روان,رنج,جدال
+,علم,متداول,انس,حامی,قابل,شکل,خرد,درد,بسته,دارایی,سوراخ,خیال,علت,مرکز,پیروز,مناسب,محو,زمان,نگاه
+,خط,فریاد,محیل,قدر,آیین,قاعده,قانع,معلوم,مرتبه,آشنا,آگاهی,ماوا,خدا,آفرین,صاحب,نفس,ناپسند,مجازات
+,شور,دانستن,شادی,پیچیده,تاثیر,تسلط,اساس,تحقیر,تباه,رفتار,فراوان,سبب,پارسا,برپا,انتها,آرزو,ول,اسیر
+,آزار,دشوار,سرگشته,هویدا,مستور,اول,دلیل,ناب,میمون,سمت,محبوب,خوب,ناسازگار,رشته,میان,روا,تاخیر,محقق
+,سامان,سیاه,نقش,انجام,گمان,ناز,تنبیه,خردمند,سحر,نیست,بن,بنیاد,توانایی,بی‌نوا,همانند,نزدیک,محبت,اهمال
+,بی‌ادب,بخش,منظم,قوت,نیکو,خاموش,آشوب,تک,ستیز,آلوده,جمعیت,هوشیار,اسباب,مکار,داغ,ظلم,زیان,سرگردان,فاش
+,مشخص,خالی,غفلت,مایه,باد,هولناک,دارا,خرم,حقه,خوشحال,خشم,کامیاب,طلب,غالب,نجیب,جدی,نقل,حلقه,حقیر,کوتاه
+,ثروتمند,سرپیچی,کودن,نوشته,مرگ,خلاصه,ملاحظه,غلبه,معروف,مقید,محروم,مکان,رو,کل,عناد,گستاخی,فرد,مطلوب,تا
+,عفیف,ته,جمیل,خواهش,ستم,نرمی,پریشانی,بیدار,متوجه,میدان,گول,همراهی,بی‌پروا,گفتگو,بی‌ارزش,زاری,تفحص,مشهور
+,رای,لاغر,چشم,ضایع,درآوردن,تاریک,اطاعت,ممتاز,تن,عهد,شراب,یقین,غرور,دروغ,قوه,مجرد,ماده,تلاش,مفلس,باهوش
+,بخشنده,خسیس,یاد,بی‌حال,مایل,ستیزه,ظریف,غضب,دیر,خوشگل,عوض,ویران,احترام,اعتبار,عرض,صلح,حیله‌گر,ساکن,امید
+,مراد,آسیب,کاردان,ماهر,عیب,بی‌نظم,فرزند,رایج,گناه,ناپاک,تهیه,نزدیکی,مال,پستی,حادثه,مقبول,کاهش,زیرکی,جستجو
+,پایدار,نامه,دوره,طریق,معامله,عظمت,اقامت,موثر,جدید,عمل,شعر,تبدیل,استواری,بردباری,رنگ,چهره,را,اصلی,واقعی
+,پشت,عالی,تهی,نفع,بچه,دادگر,متقی,دلاور,ترسو,گل,نصیب,دنیا,آمیزش,تعدی,ناقص,طبقه,غیر,ارباب,آواز,افسوس,علاقه,سریع
+,پاکیزه,مقیم,پایین,زیر,پا,مراقب,مرد,معطر,ناروا,پرتو,سفر,مبارک,تندی,پاکی,عنایت,برجسته,کج,شدید,لطف,صالح,لخت
+,فصل,درخور,سرد,لغو,پیوند,هدر,کوشش,پوچ,اسب,نمونه,خواری,مدد,پسندیده,جاوید,برگزیده,جفت,کتاب,قسم,خواندن,توانگر
+,سازگاری,تمرد,حاشیه,محترم,ادب,آراسته,صبور,خاک,رغبت,آزرده,شرمسار,بی‌حیا,تشویش,منحرف,نمایان,تحسین,مدح
+,مالک,فربه,مجموعه,چرک,کثیف,فاسق,فراهم,ناله,رونق,معتبر,عصبی,بهانه,فرهیخته,سکون,رهایی,آسان,مقدمه,مشوش
+,دعوا,شورش,غوغا,هستی,مد,بدکار,استاد,نوا,رساندن,معلق,نبرد,بیمار,مریض,مذهب,اتفاق,حلال,گرفتاری,جلال,توقف
+,جرم,زور,نگهداری,نیکی,وظیفه,زحمت,رابطه,عزیز,گرامی,تخت,میزان,پوشش,طغیان,سفت,سلطه,گوشه,عتاب,مانع,منع
+,پس,یاور,حقه‌باز,واژگون,والا,جوان,پذیرفتن,معشوق,عیار,بری,لب,ناراست,طرح,هرزه,جریان,کریم,عادل,جد,خدعه
+,وحشی,پیک,گرم,ارجمند,شکیبا,تهی‌دست,منسوب,هوشمند,متصل,منظور,حرارت,پشتیبان,کلام,شیدا,پرده,جامه,خصومت,خمیده
+,درویش,علاقه‌مند,نیازمند,مسلم,ستمگر,ترسناک,خوفناک,چاق,دراز,گردانیدن,ناپدید,هراس,درخشان,نکوهش,شوخ,مساوی
+,برنده,تیز,عقیم,ترتیب,نظم,راحت,راغب,مشتاق,علامت,آزمایش,طمع,اختیار,بلا,عذاب,محنت,حزین,مجرب,چین,قهر,متفرق
+,آمیخته,غلام,سرشت,طبیعت,حساب,دریغ,عاصی,عزیمت,انجمن,ثروت,پیوستن,طی,غریب,شک,یگانه,واحد,تصرف,ویژه,جنبش
+,فرق,کشمکش,بدبختی,فرو,پول,قلمرو,هدیه,افزایش,حبس,مسخره,بیزاری,هموار,مقهور,فاتح,وسیع,عرصه,عداوت
+,نهادن,خدمت,افکندن,گفتار,برخورد,حیرت,محزون,ولی,پناه,حمایت,امیر,نشاط,شکیبایی,ممسک,داد,زاهد
+,صرف,مکتوب,چاره,آبادی,منزلت,سرخ,آخر,ملا,تمایل,امیدوار,جماع,غمناک,راضی,فتنه,عامل,سهل,زخم
+,اصلاح,خویش,وارد,واقف,دانایی,وسیله,دین,حاضر,چالاک,طرز,مزخرف,طاهر,سو,نزار,طبع,دل,قلب,وحشت
+,کلک,شکایت,تنبل,بدذات,بدخواه,ناسازگاری,بدگویی,بی‌باک,قدح,ملامت,یکسان,سند,ذات,ریشه,اصیل
+,نابودی,تنهایی,طرفه,فریبنده,پژمرده,قطعی,دقت,تعیین,شکست,درون,کمی,بیمناک,مبارز,رسوا,جهت,مومن
+,کشتی,باقی,دید,کانا,فعل,هنگام,اجازه,منشور,مزد,تردید,انعام,گله,کوتاهی,دزد,یاوه,خراج,ارزشمند
+,طلاق,برقرار,مدام,گمنام,اشکال,دشواری,مهیب,گسترده,زبون,عاجز,روسپی,هلاک,معالجه,خرج,شکاف,بریدن,خلاف
+,ناهموار,رخ,جنس,بی‌نیاز,مست,تنگی,پیشی,حرام,تدبیر,متفاوت,موضوع,شریر,کافر,بدخلق,تندخو,گذشته,فرجام
+,سنت,ساکت,بی‌قرار,منتظر,زورمند,میسر,ضرر,نمودار,آشکارا,بیگانه,خادم,تمجید,اطلاع,بدنام,حاکم,حسن,غارت
+,ناخوش,مایوس,پیوستگی,شادمانی,سودا,روزگار,تلف,تصدیق,پاداش,تاسیس,طرد,نوکر,ارتباط,ارزش,برتر,بزرگوار
+,تربیت,سرزمین,خشنود,خسته,زندانی,مهتر,نگهبانی,کمال,بازداشت,صواب,دقیق,تکه,دیدار,نیرو,همایون,نحس,یاغی
+,فانی,وجود,شدت,بانشاط,کویر,قطعه,لئیم,شوم,خشن,جبون,مقابل,صحت,گزارش,عقیده,عادی,الهی,پیرو
+,باغ,ذکر,بخیل,غمین,فر,مسامحه,بی‌غیرت,تندرو,زوال,بازگشت,راستی,تشویق,افتاده,رسوایی,افسونگر,ضعف,پیشرو,رهبر
+,پادشاهی,فرصت,محرم,مجلس,خم,سخی,متوحش,تامل,وهم,سعی,عظیم,بی‌خبر,فوت,منقاد,دگرگون,کدر,معدوم,طاقت,بهره‌ور
+,سنگ,منصوب,گذشتن,نظیر,تابع,بنا,غنا,مردد,سنگین,محتاج,حق,دانشمند,خاطر,شیرین,بحث,کندن,سرحال,دشمن,جو,
+گود,ملایم,کشیده,عاقبت,رستاخیز,قانون,آسوده,اشتیاق,خواست,حسرت,هدف,طولانی,بانگ,مطمئن,شوریده,توافق,ناراحت
+,صریح,نهفته,نزاع,سلیم,بیماری,الله,هوشیاری,تمیز,نشانه,ورم,آن,تحریک,نغمه,عزم,نیت,موافقت,پایداری,نادانی
+,پارسایی,فایده,پروا,احسان,صحبت,تفاوت,تادیب,تقاضا,حفظ,فرسوده,ازدواج,بنیان,تطهیر,تحقیق,چیرگی,اشتباه
+,آموختن,طاق,دلربا,مصاحب,دایم,سرا,پرهیز,مفید,ناشایست,واگذار,محافظت,رعایت,احتیاط,کسب,قرین,دریافت
+,بداخلاق,دایره,عرضه,کوچ,سپاه,بلندی,شان,قلعه,هجوم,درخواست,بو,التفات,درستکار,کاوش,رویه,بهره‌مند
+,رفع,کندی,ظهور,شجاعت,معبر,زندگی,مردن,نفرت,حقیقی,خوف,پیرامون,نقشه,اعتراض,عفو,متواضع,اندوهناک
+,کرانه,طلوع,ناچیز,بس,شفا,بیداری,تعطیل,معادل,باطن,خارج,حزن,تحریر,کثیر,قله,تشریح,تاخت,رسول
+,ایوان,خدمتکار,معمول,بازی,محصول,جنگجو,غم‌انگیز,عشق,نوشتن,خودسر,تملق,شهر,سد,تقدیر,حرمت,دوزخ,آشتی
+,بدجنس,ملحد,بدخو,ابتدا,معلم,مردم,برق,زینت,انتظار,ضبط,نیاز,بندگی,صدمه,شاق,هراسان,مصلح,پراکندگی
+,مصیبت,طایفه,پلید,نجس,شمار,تحصیل,معاشرت,مخلوط,ناسره,نفیس,پیکار,روال,مجذوب,پیمان,پرخاش,دلپذیر
+,چیره,پهن,نازک,جلوگیری,مصمم,بی‌فایده,نالایق,رشد,ناپیدا,قبیح,منطقه,ناکس,بدنهاد,ساختگی,مزاح,زیبایی
+,سطح,مفتخر,گذرگاه,دیوانه,سهم,طاغی,درشت,دانه,لباس,تعبیر,جوهر,قلق,فنا,نفوذ,سرمایه,خانواده,گذشت,فخر
+,تفکیک,مرتفع,پخش,شل,نوبت,لازم,پادشاه,توده,بیرون,حرم,قلیل,تفکر,فرض,گدا,مو,همدم,همنشین,نشستن,فعال
+,جوانمرد,جزا,می,ام,قدیم,مقاومت,ماه,مبهم,وصل,واقعه,تخطی,حراست,پاس,عطا,جلب,خواب,سالوس,نویسنده
+,زایل,توانگری,اطمینان,امین,مستقر,انتقاد,غضبناک,برخوردار,شماره,مقرر,فراخ,ذلیل,وسعت,عیش,بی‌شمار
+,نشئه,راندن,سرعت,جانب,جسور,درمان,لاابالی,بیدادگر,عقل,مواظبت,منزه,متعهد,خیمه,سوگواری,غذا,قبل,کبر
+,گرمی,گوشمالی,شتاب,لجوج,مسلط,عرق,حل,تازگی,آسایش,گویا,جاه,دچار,خشکی,فرز,ضد,انسان,خوراک,خلوت,صبر
+,ستیزه‌جو,ستاره,مقصود,بله,اذیت,مشقت,مکدر,خجل,پخته,خبره,ضرب,گیج,عارف,بزرگواری,مملو,بینش,اندام
+,تیر,قابلیت,دیرینه,بعد,شهرت,تباهی,سرود,حکایت,رزم,وازده,مجبور,ناکام,نوع,رخسار,مشعوف,رده,مشابه
+,الا,ان,دایر,تندرست,تر,کبود,آتش,شیخ,فرهنگ,توشه,آرایش,ثبات,بردبار,بی‌حرکت,گور,قناعت,حریص,ملالت,دلتنگ
+,تقوا,پاسبان,مرده,حیرت‌زده,آشفتگی,ناجور,عیان,مشهود,روشنی,بیگانگان,هیاهو,لانه,خالق,تعریف,ریاست
+,سرشار,ناآگاه,اعلام,آل,قبیله,مرسوم,دستگاه,سره,پرداخت,اراده,خودداری,همیشگی,تاکید,رویداد,کالا,تالیف
+,منفعت,جهد,تجاوز,مجمع,غریبه,مهارت,تعظیم,تخریب,بقیه,مدبر,لشکر,اوج,فراز,صعود,گرانبها,کم‌بها,خودخواه
+,حصار,پرسش,تسخیر,اعراض,پابرجا,درماندگی,استیلا,قصه,نامی,نور,زندان,دنبال,عقب,خجسته,چاپ,حقیقت,تابان
+,هیبت,نوجوان,مباحثه,بحرانی,بدی,متغیر,له,نژاده,نیستی,ناتوانی,قوم,فسون,اقلیم,نادر,ولو,طول,ناگوار
+,یاس,موثق,انبوه,تنه,هیکل,ناشاد,شاخه,عدل,انگیزه,باعث,فرار,رفیق,کاهلی,توضیح,بی‌آبرو,رواج,وعده,یورش
+,منکوب,لطیف,رود,وحشتناک,رخنه,چاپلوسی,ناشکیبا,کهنسال,مسن,کننده,جنگاور,محدود,بی‌نهایت,کاهل,فعالیت,کینه
+,پیاپی,بی‌چیز,شرمنده,هزینه,مبهوت,سوا,بی‌شرم,بی‌اساس,لاقید,خام,منطقی,هجو,دلیری,کناره,تارومار,تصویر,عزاداری
+,خودنمایی,حکیم,مطبوع,واسطه,معتکف,چراغ,چرخ,هیئت,خطه,مرز,سری,مجنون,گریزان,زمخت,دلباخته,فرقه,درجه,دون
+,مستقیم,شمشیر,دنی,ستودن,مددکار,سیاست,توقیف,جای,خلف,دهقان,نیرنگ‌باز,جلوه,سرپرست,توانا,بکر,نامعقول,شوربخت
+,کرم,بدسرشت,بدکردار,عدو,ناسزا,طبق,متناسب,متروک,ترقی,ده,ولایت,تف,آبی,بهشت,فضا,خاتمه,سرانجام,قیامت,روحانی
+,جشن,قبر,امتحان,حر,جوانمردی,گزند,دردناک,آزمند,گره,حضور,نقص,وا,سقط,نامرتب,پدیدار,بلد,اقوام,مجادله,کلبه
+,خواجه,شروع,پدر,دودمان,ابزار,آلت,پلیدی,مبرا,تدارک,مرکب,دیوار,چپاول,ناخوشی,کیش,اظهار,اهمیت,اتصال,عارضه
+,اعتماد,ختم,گاه,مختصر,تکریم,لحاظ,حشمت,شوکت,خوبی,ضدیت,عزل,منفصل,نکبت,هوش,توقع,شاعر,رحلت,مقدار,گران
+,فاضل,قربانی,هنگامه,نقصان,زمینه,کلا,معیار,خفت,نژاد,سوال,معتمد,هزل,نامور,محبوس,پراکندن,فراوانی,غلط
+,تابش,فایق,ناپایدار,نیرومند,متنفر,تقصیر,بست,صعب,نشاطانگیز,بی‌پایه,تعمیر,اطراف,مدارا,مقر,نگرش,نادرستی";
+        }
 
-
-        foreach (var item in _englishWords.Split(","))
+        foreach (var item in _words.Split(","))
         {
             lists.Add(new KeyValue(item.ToSoundex(), item));
         }

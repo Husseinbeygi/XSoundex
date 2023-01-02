@@ -1,8 +1,25 @@
 ﻿@inherits LayoutComponentBase
+@if (Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "fa")
+{
+	<div dir="rtl">
 
-<NavMenu />
-<div class="container">
-	<main role="main" class="py-3">
-		@Body
-	</main>
-</div>
+		<NavMenu />
+		<div class="container">
+			<main role="main" class="py-3">
+				@Body
+			</main>
+		</div>
+
+	</div>
+}
+else
+{
+	<div dir="ltr">
+		<NavMenu />
+		<div class="container">
+			<main role="main" class="py-3">
+				@Body
+			</main>
+		</div>
+	</div>
+}
