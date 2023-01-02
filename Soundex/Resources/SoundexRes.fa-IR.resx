@@ -135,6 +135,9 @@
   <data name="6" xml:space="preserve">
     <value>ر</value>
   </data>
+  <data name="Maps" xml:space="preserve">
+    <value>ب:B/پ:P/ت:T/ط:T/س:S/ث:S/ص:S/ج:J/چ:C/ر:R/ه:H/ح:H/خ:X/د:D/ذ:Z/ظ:Z/ض:Z/ز:Z/ژ:Z/ش:S/غ:G/ک:K/گ:G/ق:G/ف:F/ل:L/م:M/ن:N/و:V/ع:A/ا:A/آ:A/أ:A/إ:A/ء:A/ی:Y/</value>
+  </data>
   <data name="Vowls" xml:space="preserve">
     <value>ا/أ/إ/آ/ح/خ/ه/ع/غ/ش/و/ه/ي/ی/ئ</value>
   </data>

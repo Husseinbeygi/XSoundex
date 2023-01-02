@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace XSoundex.Models;
+﻿namespace XSoundex.Models;
 
 public class CharacterCodes
 {
@@ -14,36 +12,42 @@ public class CharacterCodes
         _6 = new();
     }
 
-    [JsonPropertyName("1")]
     public List<string> _1 { get; set; }
 
-    [JsonPropertyName("2")]
     public List<string> _2 { get; set; }
 
-    [JsonPropertyName("3")]
     public List<string> _3 { get; set; }
 
-    [JsonPropertyName("4")]
     public List<string> _4 { get; set; }
 
-    [JsonPropertyName("5")]
     public List<string> _5 { get; set; }
 
-    [JsonPropertyName("6")]
     public List<string> _6 { get; set; }
 }
 
-public class SoundexJson
+public class SoundexResourcesModel
 {
-    public SoundexJson()
+    public SoundexResourcesModel()
     {
         CharacterCodes = new();
         Vowls = new();
+        Maps = new();
+    }
+    public CharacterCodes CharacterCodes { get; set; }
+    public List<string> Vowls { get; set; }
+    public List<KeyValue> Maps { get; set; }
+
+}
+
+public class KeyValue
+{
+    public KeyValue(char key, char value)
+    {
+        Key = key;
+        Value = value;
     }
 
-    [JsonPropertyName("CharacterCodes")]
-    public CharacterCodes CharacterCodes { get; set; }
+    public char Key { get; set; }
+    public char Value { get; set; }
 
-    [JsonPropertyName("Vowls")]
-    public List<string> Vowls { get; set; }
 }

@@ -115,6 +115,15 @@ namespace XSoundex.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Maps {
+            get {
+                return ResourceManager.GetString("Maps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A/E/I/U/Y/O/H/W.
         /// </summary>
         internal static string Vowls {

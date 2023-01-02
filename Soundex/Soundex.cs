@@ -7,7 +7,7 @@ public class Soundex
 {
     private readonly string? _culture;
 
-    public SoundexJson JsonSoundex { get; private set; }
+    public SoundexResourcesModel SoundexResources { get; private set; }
 
     public Soundex(string culture = "en-US")
     {
@@ -21,11 +21,11 @@ public class Soundex
 
         var culture = Thread.CurrentThread.CurrentCulture;
 
-        JsonSoundex = (new JsonSoundex()).SoundexJson;
+        SoundexResources = (new SoundexResources()).XSResources;
 
-        if (JsonSoundex is null)
+        if (SoundexResources is null)
         {
-            throw new InvalidDataException("Json File is not in Correct Format");
+            throw new InvalidDataException("Invalid Resource File");
         }
 
         if (string.IsNullOrWhiteSpace(word))
@@ -77,62 +77,32 @@ public class Soundex
 
     private int GetCharacterCode(string Characters)
     {
-        if (JsonSoundex.CharacterCodes._1.FirstOrDefault(x => x == Characters) != null) { return 1; }
-        if (JsonSoundex.CharacterCodes._2.FirstOrDefault(x => x == Characters) != null) { return 2; }
-        if (JsonSoundex.CharacterCodes._3.FirstOrDefault(x => x == Characters) != null) { return 3; }
-        if (JsonSoundex.CharacterCodes._4.FirstOrDefault(x => x == Characters) != null) { return 4; }
-        if (JsonSoundex.CharacterCodes._5.FirstOrDefault(x => x == Characters) != null) { return 5; }
-        if (JsonSoundex.CharacterCodes._6.FirstOrDefault(x => x == Characters) != null) { return 6; }
+        if (SoundexResources.CharacterCodes._1.FirstOrDefault(x => x == Characters) != null) { return 1; }
+        if (SoundexResources.CharacterCodes._2.FirstOrDefault(x => x == Characters) != null) { return 2; }
+        if (SoundexResources.CharacterCodes._3.FirstOrDefault(x => x == Characters) != null) { return 3; }
+        if (SoundexResources.CharacterCodes._4.FirstOrDefault(x => x == Characters) != null) { return 4; }
+        if (SoundexResources.CharacterCodes._5.FirstOrDefault(x => x == Characters) != null) { return 5; }
+        if (SoundexResources.CharacterCodes._6.FirstOrDefault(x => x == Characters) != null) { return 6; }
 
         return 0;
     }
 
-    static char MapTheFirstCharacter(char v) => v switch
+    private char MapTheFirstCharacter(char v) 
     {
-        'ب' => 'B',
-        'پ' => 'P',
-        'ت' => 'T',
-        'ط' => 'T',
-        'س' => 'S',
-        'ث' => 'S',
-        'ص' => 'S',
-        'ج' => 'J',
-        'چ' => 'C',
-        'ر' => 'R',
-        'ه' => 'H',
-        'ح' => 'H',
-        'خ' => 'X',
-        'د' => 'D',
-        'ذ' => 'Z',
-        'ظ' => 'Z',
-        'ض' => 'Z',
-        'ز' => 'Z',
-        'ژ' => 'Z',
-        'ش' => 'S',
-        'غ' => 'G',
-        'ک' => 'K',
-        'گ' => 'G',
-        'ق' => 'G',
-        'ف' => 'F',
-        'ل' => 'L',
-        'م' => 'M',
-        'ن' => 'N',
-        'و' => 'V',
-        'ع' => 'A',
-        'ا' => 'A',
-        'آ' => 'A',
-        'أ' => 'A',
-        'إ' => 'A',
-        'ء' => 'A',
-        'ی' => 'Y',
-    };
+        var _value = SoundexResources.Maps.FirstOrDefault(x => x.Key == v);
+        if (_value is null)
+        {
+            return v;
+        }
+        return _value.Value;
+    }
 
     string CleanUpTheVowlsCharacter(string word)
     {
 
         word = RemoveWhitespace(word);
 
-        foreach (var item in JsonSoundex.Vowls)
+        foreach (var item in SoundexResources.Vowls)
         {
             word = word.Replace(item, "");
         }
