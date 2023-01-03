@@ -65,5 +65,6 @@
 
 *.html linguist-detectable=false
 *.cshtml linguist-detectable=false
+*.razor linguist-detectable=false
 *.css linguist-detectable=false
 *.js linguist-detectable=false
