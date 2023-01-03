@@ -9,6 +9,8 @@ The result can use the default culture of system, or you provide it explicitly!
 # Demo✔️
 See the Demo in multilanguage (English and Persian) [HERE](https://husseinbeygi.github.io/soundex-demo/)
 
+# Installation
+you can use this [Nuget](https://www.nuget.org/packages/XSoundex/1.0.0)
 # How can I use it!✔️
 No need for any DI! Just add the nuget package to your project!
 
